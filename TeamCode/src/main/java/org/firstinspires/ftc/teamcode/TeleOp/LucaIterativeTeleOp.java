@@ -14,13 +14,11 @@ import org.firstinspires.ftc.teamcode.Hardware.Sensors.IMU;
 import org.firstinspires.ftc.teamcode.Utilities.MathUtils;
 
 //@Disabled
-@TeleOp(name="Iterative TeleOp", group="Iterative Opmode")
-public class IterativeTeleOp extends OpMode {
+@TeleOp(name="Luca's Iterative TeleOp", group="Iterative Opmode")
+public class LucaIterativeTeleOp extends OpMode {
 
     // Declare OpMode members.
 
-    private ElapsedTime boostCooldown = new ElapsedTime();
-    private ElapsedTime boostTime = new ElapsedTime();
     public Robot robot;
     Controller controller;
     Controller controller2;
@@ -40,10 +38,7 @@ public class IterativeTeleOp extends OpMode {
         robot = new Robot();
         controller = new Controller(gamepad1);
         controller2 = new Controller(gamepad2);
-        color = new Color_Sensor();
         imu = new IMU("imu");
-        color.init("color");
-        red = color.updateRed();
 
 
         multTelemetry.addData("Status", "Initialized");
@@ -70,7 +65,6 @@ public class IterativeTeleOp extends OpMode {
      */
     @Override
     public void start() {
-        boostCooldown.reset();
 
 
 

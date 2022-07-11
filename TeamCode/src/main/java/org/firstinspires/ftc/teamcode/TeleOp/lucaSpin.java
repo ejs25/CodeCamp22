@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.TeleOp;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.teamcode.Hardware.Controls.Controller;
 
@@ -12,10 +13,11 @@ import org.firstinspires.ftc.teamcode.Hardware.Robot;
 import org.firstinspires.ftc.teamcode.Hardware.Sensors.Color_Sensor;
 import org.firstinspires.ftc.teamcode.Hardware.Sensors.IMU;
 import org.firstinspires.ftc.teamcode.Utilities.MathUtils;
+import static org.firstinspires.ftc.teamcode.Utilities.OpModeUtils.hardwareMap;
 
 //@Disabled
-@TeleOp(name="Iterative TeleOp", group="Iterative Opmode")
-public class IterativeTeleOp extends OpMode {
+@TeleOp(name="luca's spin :)", group="Iterative Opmode")
+public class lucaSpin extends OpMode {
 
     // Declare OpMode members.
 
@@ -25,7 +27,8 @@ public class IterativeTeleOp extends OpMode {
     Controller controller;
     Controller controller2;
     IMU imu;
-    Color_Sensor color;
+    public CRServo duck;
+    public CRServo duck2;
     public double boost = 0;
     double red;
     boolean rumbled = false;
@@ -37,13 +40,11 @@ public class IterativeTeleOp extends OpMode {
     public void init() {
         setOpMode(this);
 
+        duck = hardwareMap.get(CRServo.class, "duck");
+        duck2 = hardwareMap.get(CRServo.class, "duck2");
         robot = new Robot();
         controller = new Controller(gamepad1);
         controller2 = new Controller(gamepad2);
-        color = new Color_Sensor();
-        imu = new IMU("imu");
-        color.init("color");
-        red = color.updateRed();
 
 
         multTelemetry.addData("Status", "Initialized");
@@ -87,7 +88,10 @@ public class IterativeTeleOp extends OpMode {
      */
     @Override
     public void loop() {
+        controller.controllerUpdate();
 
+        duck.setPower(-controller.leftStick().y);
+        duck2.setPower(-controller.leftStick().y);
     }
 
     @Override
