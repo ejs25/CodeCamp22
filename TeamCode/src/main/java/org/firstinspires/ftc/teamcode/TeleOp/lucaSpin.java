@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.TeleOp;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.CRServo;
@@ -9,13 +10,10 @@ import org.firstinspires.ftc.teamcode.Hardware.Controls.Controller;
 import static org.firstinspires.ftc.teamcode.Utilities.OpModeUtils.multTelemetry;
 import static org.firstinspires.ftc.teamcode.Utilities.OpModeUtils.setOpMode;
 
-import org.firstinspires.ftc.teamcode.Hardware.Robot;
-import org.firstinspires.ftc.teamcode.Hardware.Sensors.Color_Sensor;
+import org.firstinspires.ftc.teamcode.Hardware.Mecanum;
 import org.firstinspires.ftc.teamcode.Hardware.Sensors.IMU;
-import org.firstinspires.ftc.teamcode.Utilities.MathUtils;
-import static org.firstinspires.ftc.teamcode.Utilities.OpModeUtils.hardwareMap;
 
-//@Disabled
+@Disabled
 @TeleOp(name="luca's spin :)", group="Iterative Opmode")
 public class lucaSpin extends OpMode {
 
@@ -23,7 +21,7 @@ public class lucaSpin extends OpMode {
 
     private ElapsedTime boostCooldown = new ElapsedTime();
     private ElapsedTime boostTime = new ElapsedTime();
-    public Robot robot;
+    public Mecanum mecanum;
     Controller controller;
     Controller controller2;
     IMU imu;
@@ -42,7 +40,7 @@ public class lucaSpin extends OpMode {
 
         duck = hardwareMap.get(CRServo.class, "duck");
         duck2 = hardwareMap.get(CRServo.class, "duck2");
-        robot = new Robot();
+        mecanum = new Mecanum();
         controller = new Controller(gamepad1);
         controller2 = new Controller(gamepad2);
 

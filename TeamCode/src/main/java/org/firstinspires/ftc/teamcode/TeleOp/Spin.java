@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.TeleOp;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.CRServo;
@@ -9,21 +10,18 @@ import org.firstinspires.ftc.teamcode.Hardware.Controls.Controller;
 import static org.firstinspires.ftc.teamcode.Utilities.OpModeUtils.multTelemetry;
 import static org.firstinspires.ftc.teamcode.Utilities.OpModeUtils.setOpMode;
 
-import org.firstinspires.ftc.teamcode.Hardware.Robot;
-import org.firstinspires.ftc.teamcode.Hardware.Sensors.Color_Sensor;
+import org.firstinspires.ftc.teamcode.Hardware.Mecanum;
 import org.firstinspires.ftc.teamcode.Hardware.Sensors.IMU;
-import org.firstinspires.ftc.teamcode.Utilities.MathUtils;
-import static org.firstinspires.ftc.teamcode.Utilities.OpModeUtils.hardwareMap;
 
-//@Disabled
-@TeleOp(name="spin :)", group="Iterative Opmode")
+@Disabled
+@TeleOp(name="spin :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) ", group="Iterative Opmode")
 public class Spin extends OpMode {
 
     // Declare OpMode members.
 
     private ElapsedTime boostCooldown = new ElapsedTime();
     private ElapsedTime boostTime = new ElapsedTime();
-    public Robot robot;
+    public Mecanum robot;
     Controller controller;
     Controller controller2;
     IMU imu;
@@ -40,7 +38,7 @@ public class Spin extends OpMode {
         setOpMode(this);
 
         duck = hardwareMap.get(CRServo.class, "duck");
-        robot = new Robot();
+        robot = new Mecanum();
         controller = new Controller(gamepad1);
         controller2 = new Controller(gamepad2);
 

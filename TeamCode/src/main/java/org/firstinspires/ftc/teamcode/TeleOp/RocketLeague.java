@@ -9,7 +9,7 @@ import org.firstinspires.ftc.teamcode.Hardware.Controls.Controller;
 import static org.firstinspires.ftc.teamcode.Utilities.OpModeUtils.multTelemetry;
 import static org.firstinspires.ftc.teamcode.Utilities.OpModeUtils.setOpMode;
 
-import org.firstinspires.ftc.teamcode.Hardware.Robot;
+import org.firstinspires.ftc.teamcode.Hardware.Mecanum;
 import org.firstinspires.ftc.teamcode.Hardware.Sensors.Color_Sensor;
 import org.firstinspires.ftc.teamcode.Hardware.Sensors.IMU;
 import org.firstinspires.ftc.teamcode.Utilities.MathUtils;
@@ -22,7 +22,7 @@ public class RocketLeague extends OpMode {
 
     private ElapsedTime boostCooldown = new ElapsedTime();
     private ElapsedTime boostTime = new ElapsedTime();
-    public Robot robot;
+    public Mecanum robot;
     Controller controller;
     Controller controller2;
     public CRServo duck;
@@ -39,7 +39,7 @@ public class RocketLeague extends OpMode {
     public void init() {
         setOpMode(this);
 
-        robot = new Robot();
+        robot = new Mecanum();
         controller = new Controller(gamepad1);
         controller2 = new Controller(gamepad2);
         color = new Color_Sensor();

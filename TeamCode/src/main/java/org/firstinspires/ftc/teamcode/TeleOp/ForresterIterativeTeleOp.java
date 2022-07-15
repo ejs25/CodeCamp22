@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.TeleOp;
 
+import static com.arcrobotics.ftclib.gamepad.GamepadKeys.Button.DPAD_LEFT;
+
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.Range;
@@ -8,16 +10,23 @@ import org.firstinspires.ftc.teamcode.Controls.ButtonControls;
 import org.firstinspires.ftc.teamcode.Controls.JoystickControls;
 
 import static org.firstinspires.ftc.teamcode.Controls.ButtonControls.ButtonState.DOWN;
+import static org.firstinspires.ftc.teamcode.Controls.ButtonControls.ButtonState.TAP;
 import static org.firstinspires.ftc.teamcode.Controls.ButtonControls.ButtonState.TOGGLE;
 import static org.firstinspires.ftc.teamcode.Controls.ButtonControls.Input.CIRCLE;
 import static org.firstinspires.ftc.teamcode.Controls.ButtonControls.Input.CROSS;
+import static org.firstinspires.ftc.teamcode.Controls.ButtonControls.Input.DPAD_L;
+import static org.firstinspires.ftc.teamcode.Controls.ButtonControls.Input.DPAD_R;
+import static org.firstinspires.ftc.teamcode.Controls.ButtonControls.Input.LB1;
+import static org.firstinspires.ftc.teamcode.Controls.ButtonControls.Input.LB2;
 import static org.firstinspires.ftc.teamcode.Controls.ButtonControls.Input.RB1;
 import static org.firstinspires.ftc.teamcode.Controls.ButtonControls.Input.TOUCHPAD;
 import static org.firstinspires.ftc.teamcode.Controls.ButtonControls.Input.TRIANGLE;
 import static org.firstinspires.ftc.teamcode.Controls.JoystickControls.Input.LEFT;
 import static org.firstinspires.ftc.teamcode.Controls.JoystickControls.Input.RIGHT;
+import static org.firstinspires.ftc.teamcode.Controls.JoystickControls.Value.INVERT_SHIFTED_X;
 import static org.firstinspires.ftc.teamcode.Controls.JoystickControls.Value.INVERT_SHIFTED_Y;
 import static org.firstinspires.ftc.teamcode.Controls.JoystickControls.Value.SHIFTED_X;
+import static org.firstinspires.ftc.teamcode.Controls.JoystickControls.Value.SHIFTED_Y;
 import static org.firstinspires.ftc.teamcode.Controls.JoystickControls.Value.X;
 import static org.firstinspires.ftc.teamcode.DashConstants.Side.blue;
 import static org.firstinspires.ftc.teamcode.DashConstants.Side.red;
@@ -27,8 +36,8 @@ import static org.firstinspires.ftc.teamcode.Utilities.OpModeUtils.setOpMode;
 import org.firstinspires.ftc.teamcode.Hardware.Robot;
 
 //@Disabled
-@TeleOp(name="Luca's Iterative TeleOp", group="Iterative Opmode")
-public class LucaIterativeTeleOp extends OpMode {
+@TeleOp(name="Forrester's Iterative TeleOp", group="Iterative Opmode")
+public class ForresterIterativeTeleOp extends OpMode {
 
     // Declare OpMode members.
 
@@ -47,20 +56,20 @@ public class LucaIterativeTeleOp extends OpMode {
 
         BC = new ButtonControls(gamepad1);
         JC = new JoystickControls(gamepad1);
-        robot = new Robot("luca");
+        robot = new Robot("forrester");
 
 
         multTelemetry.addData("Status", "Initialized");
 
-        multTelemetry.addLine(" -------- Subsystem Controls --------");
-        multTelemetry.addData("Dropper", "[CROSS]");
-        multTelemetry.addData("Duck Spinner", "[CIRCLE]");
-        multTelemetry.addData("Duck Direction", "[RB1]");
-
-        multTelemetry.addLine(" -------- Drive Controls --------");
-        multTelemetry.addData("Drive", "[LEFT_STICK]");
-        multTelemetry.addData("Turn", "[RIGHT_STICK]");
-        multTelemetry.addData("Slow Down", "[LB2]");
+//        multTelemetry.addLine(" -------- Subsystem Controls --------");
+//        multTelemetry.addData("Dropper", "[CROSS]");
+//        multTelemetry.addData("Duck Spinner", "[CIRCLE]");
+//        multTelemetry.addData("Duck Direction", "[RB1]");
+//
+//        multTelemetry.addLine(" -------- Drive Controls --------");
+//        multTelemetry.addData("Drive", "[LEFT_STICK]");
+//        multTelemetry.addData("Turn", "[RIGHT_STICK]");
+//        multTelemetry.addData("Slow Down", "[LB2]");
         multTelemetry.update();
     }
 
@@ -112,40 +121,28 @@ public class LucaIterativeTeleOp extends OpMode {
         if (BC.get(CIRCLE, DOWN))   robot.duckSpinner.spin(duckPower);
         else                        robot.duckSpinner.spin(0);
 
-        //                  RING DROPPER                    //
-        if (BC.get(CROSS, TOGGLE))  robot.dropper.release();
-        else                        robot.dropper.hold();
 
-        //                  SWEEPER                         //
-        if (BC.get(TRIANGLE, TOGGLE))   robot.sweeper.down();
-        else                            robot.sweeper.up();
+        //                  DROPPER / GRIPPER               //
+        robot.dropper.update(BC.get(DPAD_R, TAP), BC.get(DPAD_L, DOWN));
 
 
         //                  DRIVE CONTROLS                  //
         JC.setShifted(LEFT, robot.drivetrain.imu.getAngle());
-        double drive =  JC.get(LEFT, INVERT_SHIFTED_Y);
-        double strafe = JC.get(LEFT, SHIFTED_X);
+        double drive =  JC.get(LEFT, SHIFTED_Y);
+        double strafe = JC.get(LEFT, INVERT_SHIFTED_X);
         double turn = JC.get(RIGHT, X);
 
         //                  SPEED CONTROLS                  //
-        double power = Range.clip(1 - gamepad1.left_trigger, 0.15, 0.7);
+        double power = (BC.get(LB2, TOGGLE)) ? 0.2 : 0.5;
 
 
         robot.drivetrain.setDrivePower(power, strafe, turn, drive);
-
-
-        /*
-        if(){
-            blue = !blue;
-            red = !red;
-        }
-         */
 
         multTelemetry.addData("Drive", drive);
         multTelemetry.addData("Strafe", strafe);
         multTelemetry.addData("Turn", turn);
         multTelemetry.addData("DuckSpinner", BC.get(CIRCLE, DOWN));
-        multTelemetry.addData("DuckSpinner Direction", BC.get(RB1, TOGGLE));
+        multTelemetry.addData("Dropper", robot.dropper.getState());
         multTelemetry.update();
 
         /*

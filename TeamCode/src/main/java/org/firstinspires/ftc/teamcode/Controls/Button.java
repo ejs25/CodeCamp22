@@ -11,7 +11,7 @@ public class Button {
     private double waitTime = 0.2;
 
     public boolean pressed_last_cycle;
-    public boolean toggle, tap, down, up;
+    public boolean toggle, tap, down, up, value;
 
     private final ButtonCheck buttonCheck;
     public Button(ButtonCheck buttonCheck) { this.buttonCheck = buttonCheck; }
