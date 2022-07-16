@@ -31,8 +31,6 @@ import org.firstinspires.ftc.teamcode.Hardware.Robot;
 public class LucaIterativeTeleOp extends OpMode {
 
     // Declare OpMode members.
-
-
     ButtonControls BC;
     JoystickControls JC;
     Robot robot;
