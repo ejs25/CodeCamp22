@@ -6,7 +6,7 @@ import com.acmerobotics.dashboard.config.Config;
 
 public class PIDWeights {
 
-    public static double proportionalWeight = 0;
+    public static double proportionalWeight = 0.05;
     public static double integralWeight = 0;
     public static double derivativeWeight = 0;
 
