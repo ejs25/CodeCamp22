@@ -44,7 +44,7 @@ public class IterativeTeleOp extends OpMode {
     public void init() {
         setOpMode(this);
 
-        pid = new PID(0, 0, 0);
+        pid = new PID(0.012, 0.0000001, 0);
 
         iretomide = new Robot();
 
@@ -94,7 +94,7 @@ public class IterativeTeleOp extends OpMode {
 
         //controller.joyticks.setShifted(LEFT, iretomide.gyro.angle());
 
-        double correction = pid.update(iretomide.gyro.getAngle() - setPoint, true);
+        double correction = pid.update(iretomide.gyro.getAngle() - setPoint, false);
         double rotation = controller.get(RIGHT, X);
         if (!(controller.get(RIGHT, X) == 0)){
             wasTurning = true;

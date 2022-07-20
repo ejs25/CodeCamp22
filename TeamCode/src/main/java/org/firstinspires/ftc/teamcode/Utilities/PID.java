@@ -1,6 +1,9 @@
 package org.firstinspires.ftc.teamcode.Utilities;
 
 import static org.firstinspires.ftc.teamcode.Utilities.OpModeUtils.multTelemetry;
+import static org.firstinspires.ftc.teamcode.Utilities.PIDWeights.DASH_DERIVATIVE_WEIGHT;
+import static org.firstinspires.ftc.teamcode.Utilities.PIDWeights.DASH_INTEGRAL_WEIGHT;
+import static org.firstinspires.ftc.teamcode.Utilities.PIDWeights.DASH_PROPORTIONAL_WEIGHT;
 
 public class PID {
 
@@ -8,7 +11,7 @@ public class PID {
         private double integralWeight;
         private double derivativeWeight;
 
-        private boolean isTuning = true; //?
+        private boolean isTuning = false; //?
 
         private double integralSum = 0;
 
@@ -33,14 +36,26 @@ public class PID {
             previousError = error;
             previousTime = System.currentTimeMillis();
 
-            double pComponent = error * PIDWeights.proportionalWeight;
-            double iComponent = integralSum * PIDWeights.integralWeight;
-            double dComponent = rateOfChange * PIDWeights.derivativeWeight;
+
+            double pComponent = error;
+            double iComponent = integralSum;
+            double dComponent = rateOfChange;
 
             if (isTuning){
+
+                pComponent *= DASH_PROPORTIONAL_WEIGHT;
+                iComponent *= DASH_INTEGRAL_WEIGHT;
+                dComponent *= DASH_DERIVATIVE_WEIGHT;
+
                 multTelemetry.addData("P", pComponent);
                 multTelemetry.addData("I", iComponent);
                 multTelemetry.addData("D", dComponent);
+            }
+
+            else {
+                pComponent *= this.proportionalWeight;
+                iComponent *= this.integralWeight;
+                dComponent *= this.derivativeWeight;
             }
 
             return pComponent + iComponent + dComponent;
