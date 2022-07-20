@@ -75,7 +75,6 @@ public class Mecanum {
         multTelemetry.addData("frPower", frPower);
         multTelemetry.addData("blPower", blPower);
         multTelemetry.addData("brPower", brPower);
-        multTelemetry.update();
 
         fl.setPower(flPower);
         fr.setPower(frPower);
