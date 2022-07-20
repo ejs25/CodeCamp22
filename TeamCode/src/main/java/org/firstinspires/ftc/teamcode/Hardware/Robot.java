@@ -1,10 +1,11 @@
 package org.firstinspires.ftc.teamcode.Hardware;
 
 import com.qualcomm.robotcore.util.ElapsedTime;
-
-import org.firstinspires.ftc.teamcode.Hardware.Sensors.IMU;
+import com.wolfpackmachina.bettersensors.Sensors.Gyro;
 
 import static org.firstinspires.ftc.teamcode.Utilities.OpModeUtils.multTelemetry;
+
+import org.firstinspires.ftc.teamcode.Hardware.Sensors.IMU;
 
 /**
  * A class for containing an FTC Mecanum robot
@@ -12,6 +13,11 @@ import static org.firstinspires.ftc.teamcode.Utilities.OpModeUtils.multTelemetry
 public class Robot {
 
    public static ElapsedTime time = new ElapsedTime();
+
+   public Mecanum tijani;
+
+   public IMU gyro;
+
 
    public Robot(){
       initRobot();
@@ -22,6 +28,11 @@ public class Robot {
       /*
             I N I T   M O T O R S
        */
+
+      //initialized Mecanum
+      tijani = new Mecanum();
+
+      gyro = new IMU( "imu");
 
 
       multTelemetry.addData("Status", "Initialized");
