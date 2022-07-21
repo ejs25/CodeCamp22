@@ -18,6 +18,8 @@ public class Robot {
 
    public IMU gyro;
 
+   public DuckSpinner nas;
+
 
    public Robot(){
       initRobot();
@@ -33,6 +35,8 @@ public class Robot {
       tijani = new Mecanum();
 
       gyro = new IMU( "imu");
+
+      nas = new DuckSpinner("nasreddine");
 
 
       multTelemetry.addData("Status", "Initialized");

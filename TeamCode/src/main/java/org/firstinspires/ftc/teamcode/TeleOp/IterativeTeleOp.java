@@ -1,27 +1,24 @@
 package org.firstinspires.ftc.teamcode.TeleOp;
 
+import static org.firstinspires.ftc.teamcode.Controls.ButtonControls.ButtonState.DOWN;
+import static org.firstinspires.ftc.teamcode.Controls.ButtonControls.ButtonState.TAP;
+import static org.firstinspires.ftc.teamcode.Controls.ButtonControls.Input.CIRCLE;
+import static org.firstinspires.ftc.teamcode.Controls.ButtonControls.Input.CROSS;
+import static org.firstinspires.ftc.teamcode.Controls.ButtonControls.Input.TRIANGLE;
+import static org.firstinspires.ftc.teamcode.Controls.JoystickControls.Input.LEFT;
+import static org.firstinspires.ftc.teamcode.Controls.JoystickControls.Input.RIGHT;
+import static org.firstinspires.ftc.teamcode.Controls.JoystickControls.Value.INVERT_SHIFTED_Y;
+import static org.firstinspires.ftc.teamcode.Controls.JoystickControls.Value.SHIFTED_X;
+import static org.firstinspires.ftc.teamcode.Controls.JoystickControls.Value.X;
+import static org.firstinspires.ftc.teamcode.Utilities.OpModeUtils.multTelemetry;
+import static org.firstinspires.ftc.teamcode.Utilities.OpModeUtils.setOpMode;
+
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import static org.firstinspires.ftc.teamcode.Controls.ButtonControls.ButtonState.DOWN;
-import static org.firstinspires.ftc.teamcode.Controls.ButtonControls.ButtonState.TAP;
-import static org.firstinspires.ftc.teamcode.Controls.ButtonControls.Input.CIRCLE;
-import static org.firstinspires.ftc.teamcode.Controls.ButtonControls.Input.TRIANGLE;
-import static org.firstinspires.ftc.teamcode.Controls.JoystickControls.Input.LEFT;
-import static org.firstinspires.ftc.teamcode.Controls.JoystickControls.Input.RIGHT;
-import static org.firstinspires.ftc.teamcode.Controls.JoystickControls.Value.INVERT_SHIFTED_Y;
-import static org.firstinspires.ftc.teamcode.Controls.JoystickControls.Value.INVERT_Y;
-import static org.firstinspires.ftc.teamcode.Controls.JoystickControls.Value.SHIFTED_X;
-import static org.firstinspires.ftc.teamcode.Controls.JoystickControls.Value.X;
-import static org.firstinspires.ftc.teamcode.Controls.JoystickControls.Value.Y;
-import static org.firstinspires.ftc.teamcode.Utilities.OpModeUtils.multTelemetry;
-import static org.firstinspires.ftc.teamcode.Utilities.OpModeUtils.setOpMode;
-
-import org.firstinspires.ftc.teamcode.Controls.ButtonControls;
 import org.firstinspires.ftc.teamcode.Controls.Controller;
-import org.firstinspires.ftc.teamcode.Controls.JoystickControls;
 import org.firstinspires.ftc.teamcode.Hardware.Robot;
 import org.firstinspires.ftc.teamcode.Utilities.PID;
 
@@ -33,7 +30,6 @@ public class IterativeTeleOp extends OpMode {
     private ElapsedTime runtime = new ElapsedTime();
     Robot iretomide;
     Controller controller;
-    CRServo nasreddine;
     boolean speed_toggle = false;
     boolean last = true;
     boolean toggle = false;
@@ -41,9 +37,11 @@ public class IterativeTeleOp extends OpMode {
     private double setPoint = 0;
     private boolean wasTurning;
 
-    /*
-     * Code to run ONCE when the driver hits INIT
-     */
+
+
+    double targetAngle;
+
+
     @Override
     public void init() {
         setOpMode(this);
@@ -51,8 +49,6 @@ public class IterativeTeleOp extends OpMode {
         pid = new PID(0.012, 0.0000001, 0);
 
         iretomide = new Robot();
-
-        nasreddine = hardwareMap.get(CRServo.class, "nasreddine");
 
         controller = new Controller(gamepad1);
 
@@ -91,9 +87,7 @@ public class IterativeTeleOp extends OpMode {
         multTelemetry.update();
     }
 
-    /*
-     * Code to run REPEATEDLY after the driver hits PLAY but before they hit STOP
-     */
+
     @Override
     public void loop() {
         Controller.update();
@@ -137,18 +131,30 @@ public class IterativeTeleOp extends OpMode {
             power = 0.3;
         }
 
-
+        //pressing triangle makes duck spinner turn .5, pressing x makes it turn -.5 (nas is the duckspinner)
         if (controller.get(TRIANGLE, DOWN)){
-            nasreddine.setPower(0.5);
+            iretomide.nas.spin(0.5);
+        } else if (controller.get(CROSS, DOWN)){
+            iretomide.nas.spin(-0.5);
         } else {
-            nasreddine.setPower(0);
+            iretomide.nas.spin(0);
         }
 
-        if (gamepad1.x) {
-            nasreddine.setPower(-0.5);
-        } else{
-            nasreddine.setPower(0);
-        }
+
+
+        //pressing one of the dpad buttons makes the robot snap to that position using PID
+        /*if (gamepad1.dpad_up){ // face forwards / 0 position
+            targetAngle = 0;
+
+        } else if (gamepad1.dpad_down){ //face backwards / 180 position
+            targetAngle = 180;
+        } else if (gamepad1.dpad_left){ //face left / -90 or 270 position
+            targetAngle = -90;
+        } else if (gamepad1.dpad_right){ //face right / 90 position
+            targetAngle = 90;
+        } else {
+
+        } */
 
         iretomide.tijani.setDrivePower(drive, strafe, rotation, power);
 
@@ -219,8 +225,8 @@ public class IterativeTeleOp extends OpMode {
         multTelemetry.addData("drive", drive);
         multTelemetry.addData("strafe", strafe);
         multTelemetry.addData("turn", turn);
-        multTelemetry.addData("nas", gamepad1.x);
-        multTelemetry.addData("nas power", nasreddine.getPower());
+        multTelemetry.addData("nas", controller.get(CROSS, DOWN));
+        multTelemetry.addData("nas", controller.get(TRIANGLE, DOWN));
         multTelemetry.update();
     }
 

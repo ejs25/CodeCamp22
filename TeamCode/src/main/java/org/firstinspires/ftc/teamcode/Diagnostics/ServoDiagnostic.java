@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.Diagnostics;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.teamcode.Utilities.OpModeUtils;
@@ -26,7 +27,6 @@ public class ServoDiagnostic extends LinearOpMode {
     private Servo servo;
     private String servo_id = SERVO_ID;
     private String status = "HOME";
-
 
     public void initialize() {
         OpModeUtils.setOpMode(this);
