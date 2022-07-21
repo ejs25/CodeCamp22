@@ -2,10 +2,13 @@ package org.firstinspires.ftc.teamcode.TeleOp;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+import static org.firstinspires.ftc.teamcode.Controls.ButtonControls.ButtonState.DOWN;
 import static org.firstinspires.ftc.teamcode.Controls.ButtonControls.ButtonState.TAP;
 import static org.firstinspires.ftc.teamcode.Controls.ButtonControls.Input.CIRCLE;
+import static org.firstinspires.ftc.teamcode.Controls.ButtonControls.Input.TRIANGLE;
 import static org.firstinspires.ftc.teamcode.Controls.JoystickControls.Input.LEFT;
 import static org.firstinspires.ftc.teamcode.Controls.JoystickControls.Input.RIGHT;
 import static org.firstinspires.ftc.teamcode.Controls.JoystickControls.Value.INVERT_SHIFTED_Y;
@@ -30,6 +33,7 @@ public class IterativeTeleOp extends OpMode {
     private ElapsedTime runtime = new ElapsedTime();
     Robot iretomide;
     Controller controller;
+    CRServo nasreddine;
     boolean speed_toggle = false;
     boolean last = true;
     boolean toggle = false;
@@ -47,6 +51,8 @@ public class IterativeTeleOp extends OpMode {
         pid = new PID(0.012, 0.0000001, 0);
 
         iretomide = new Robot();
+
+        nasreddine = hardwareMap.get(CRServo.class, "nasreddine");
 
         controller = new Controller(gamepad1);
 
@@ -132,7 +138,20 @@ public class IterativeTeleOp extends OpMode {
         }
 
 
+        if (controller.get(TRIANGLE, DOWN)){
+            nasreddine.setPower(0.5);
+        } else {
+            nasreddine.setPower(0);
+        }
+
+        if (gamepad1.x) {
+            nasreddine.setPower(-0.5);
+        } else{
+            nasreddine.setPower(0);
+        }
+
         iretomide.tijani.setDrivePower(drive, strafe, rotation, power);
+
 
 
 
@@ -200,6 +219,8 @@ public class IterativeTeleOp extends OpMode {
         multTelemetry.addData("drive", drive);
         multTelemetry.addData("strafe", strafe);
         multTelemetry.addData("turn", turn);
+        multTelemetry.addData("nas", gamepad1.x);
+        multTelemetry.addData("nas power", nasreddine.getPower());
         multTelemetry.update();
     }
 
