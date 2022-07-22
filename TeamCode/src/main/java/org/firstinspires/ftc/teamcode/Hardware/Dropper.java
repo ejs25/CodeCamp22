@@ -42,7 +42,7 @@ public class Dropper {
         switch (currentState){
 
             case UP:
-                rightDropper.setPosition(0.06);
+                rightDropper.setPosition(0.31);
                 leftDropper.setPosition(0.94);
                 if (LB2 && CROSS){
                     currentState = OPEN;
@@ -50,7 +50,7 @@ public class Dropper {
                 break;
 
             case OPEN:
-                rightDropper.setPosition(0.5);
+                rightDropper.setPosition(0.7);
                 leftDropper.setPosition(0.5);
                 if (LB2 && TRIANGLE){
                     currentState = UP;

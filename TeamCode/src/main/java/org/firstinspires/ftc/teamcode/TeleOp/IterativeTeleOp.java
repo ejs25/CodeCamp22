@@ -5,6 +5,7 @@ import static org.firstinspires.ftc.teamcode.Controls.ButtonControls.ButtonState
 import static org.firstinspires.ftc.teamcode.Controls.ButtonControls.Input.CIRCLE;
 import static org.firstinspires.ftc.teamcode.Controls.ButtonControls.Input.CROSS;
 import static org.firstinspires.ftc.teamcode.Controls.ButtonControls.Input.LB2;
+import static org.firstinspires.ftc.teamcode.Controls.ButtonControls.Input.RB2;
 import static org.firstinspires.ftc.teamcode.Controls.ButtonControls.Input.TRIANGLE;
 import static org.firstinspires.ftc.teamcode.Controls.JoystickControls.Input.LEFT;
 import static org.firstinspires.ftc.teamcode.Controls.JoystickControls.Input.RIGHT;
@@ -31,12 +32,12 @@ public class IterativeTeleOp extends OpMode {
     private ElapsedTime runtime = new ElapsedTime();
     Robot iretomide;
     Controller controller;
-    boolean speed_toggle = false;
     boolean last = true;
     boolean toggle = false;
     private PID pid;
     private double setPoint = 0;
     private boolean wasTurning;
+    double slowPower = 0.5;
 
 
 
@@ -110,24 +111,25 @@ public class IterativeTeleOp extends OpMode {
         double drive = controller.get(LEFT, INVERT_SHIFTED_Y);
         double strafe = controller.get(LEFT, SHIFTED_X);
         double turn = controller.get(RIGHT, X);
-        double power = 0.5;
+        double power = 1.0;
 
 
-        if (gamepad1.triangle && last == false){
+        /*if (gamepad1.triangle && last == false){
             speed_toggle = !speed_toggle;
             last = true;
         } else if (!gamepad1.triangle){
             last = false;
         }
+        */
 
-        if (speed_toggle){
-            power = 0.3;
+        if (controller.get(RB2, DOWN)){
+            power = slowPower;
         }
 
         //pressing triangle makes duck spinner turn .5, pressing x makes it turn -.5 (nas is the duckspinner)
-        if (controller.get(TRIANGLE, DOWN)){
+        if (controller.get(TRIANGLE, DOWN) && !controller.get(LB2, DOWN)){
             iretomide.nas.spin(0.5);
-        } else if (controller.get(CROSS, DOWN)){
+        } else if (controller.get(CROSS, DOWN) && !controller.get(LB2, DOWN)){
             iretomide.nas.spin(-0.5);
         } else {
             iretomide.nas.spin(0);
@@ -140,11 +142,11 @@ public class IterativeTeleOp extends OpMode {
         /*if (gamepad1.dpad_up){ // face forwards / 0 position
             targetAngle = 0;
 
-        } else if (gamepad1.dpad_down){ //face backwards / 180 position
+        } else if (gamepad1.dpad_down){ //face backwards
             targetAngle = 180;
-        } else if (gamepad1.dpad_left){ //face left / -90 or 270 position
+        } else if (gamepad1.dpad_left){ //face left
             targetAngle = -90;
-        } else if (gamepad1.dpad_right){ //face right / 90 position
+        } else if (gamepad1.dpad_right){ //face right
             targetAngle = 90;
         } else {
 
