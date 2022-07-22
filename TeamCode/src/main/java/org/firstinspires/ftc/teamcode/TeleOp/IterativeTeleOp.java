@@ -4,6 +4,7 @@ import static org.firstinspires.ftc.teamcode.Controls.ButtonControls.ButtonState
 import static org.firstinspires.ftc.teamcode.Controls.ButtonControls.ButtonState.TAP;
 import static org.firstinspires.ftc.teamcode.Controls.ButtonControls.Input.CIRCLE;
 import static org.firstinspires.ftc.teamcode.Controls.ButtonControls.Input.CROSS;
+import static org.firstinspires.ftc.teamcode.Controls.ButtonControls.Input.LB2;
 import static org.firstinspires.ftc.teamcode.Controls.ButtonControls.Input.TRIANGLE;
 import static org.firstinspires.ftc.teamcode.Controls.JoystickControls.Input.LEFT;
 import static org.firstinspires.ftc.teamcode.Controls.JoystickControls.Input.RIGHT;
@@ -62,10 +63,6 @@ public class IterativeTeleOp extends OpMode {
     @Override
     public void init_loop() {
 
-        /*
-                    Y O U R   C O D E   H E R E
-                                                   */
-
 
         multTelemetry.addData("Status", "InitLoop");
         multTelemetry.update();
@@ -78,10 +75,6 @@ public class IterativeTeleOp extends OpMode {
     public void start() {
         runtime.reset();
 
-
-        /*
-                    Y O U R   C O D E   H E R E
-                                                   */
 
         multTelemetry.addData("Status", "Started");
         multTelemetry.update();
@@ -140,6 +133,7 @@ public class IterativeTeleOp extends OpMode {
             iretomide.nas.spin(0);
         }
 
+        iretomide.dropper.update(controller.get(LB2, DOWN), controller.get(TRIANGLE, DOWN), controller.get(CROSS, DOWN));
 
 
         //pressing one of the dpad buttons makes the robot snap to that position using PID
@@ -233,9 +227,6 @@ public class IterativeTeleOp extends OpMode {
     @Override
     public void stop() {
 
-        /*
-                    Y O U R   C O D E   H E R E
-                                                   */
 
     }
 }

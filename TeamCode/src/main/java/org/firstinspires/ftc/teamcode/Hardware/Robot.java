@@ -20,6 +20,8 @@ public class Robot {
 
    public DuckSpinner nas;
 
+   public Dropper dropper;
+
 
    public Robot(){
       initRobot();
@@ -37,6 +39,10 @@ public class Robot {
       gyro = new IMU( "imu");
 
       nas = new DuckSpinner("nasreddine");
+
+      dropper = new Dropper("leftDropper", "rightDropper");
+
+
 
 
       multTelemetry.addData("Status", "Initialized");
