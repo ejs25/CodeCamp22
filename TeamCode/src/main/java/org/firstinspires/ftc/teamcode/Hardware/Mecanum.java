@@ -1,7 +1,10 @@
 package org.firstinspires.ftc.teamcode.Hardware;
 
+import static com.qualcomm.robotcore.hardware.DcMotor.RunMode.STOP_AND_RESET_ENCODER;
 import static org.firstinspires.ftc.teamcode.Utilities.OpModeUtils.hardwareMap;
 import static org.firstinspires.ftc.teamcode.Utilities.OpModeUtils.multTelemetry;
+
+import static java.lang.Math.abs;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
@@ -56,16 +59,14 @@ public class Mecanum {
         br.setPower(power);
     }
 
+
+
+
     /**
      * Sets the power to the motors for driving with a mecanum drivetrain
      * @param power
      */
     public void setDrivePower(double drive, double strafe, double turn, double power){
-        /*
-
-                Y O U R   C O D E   H E R E
-
-         */
         double frPower = (drive - strafe - turn) * power;
         double flPower = (drive + strafe + turn) * power;
         double brPower = (drive + strafe - turn) * power;
@@ -83,16 +84,52 @@ public class Mecanum {
     }
 
 
+
+    /**
+     * resets the motors before every strafe
+     */
+    public void resetMotors(){
+        fl.setMode(STOP_AND_RESET_ENCODER);
+        fr.setMode(STOP_AND_RESET_ENCODER);
+        bl.setMode(STOP_AND_RESET_ENCODER);
+        br.setMode(STOP_AND_RESET_ENCODER);
+    }
+
+
+    /**
+     *
+     * @return avg of all motors' current position (each is absolute valued)
+     */
+    public double getPosition(){
+        double flPosition = fl.getCurrentPosition();
+        double frPosition = fr.getCurrentPosition();
+        double blPosition = bl.getCurrentPosition();
+        double brPosition = br.getCurrentPosition();
+        return (flPosition + frPosition + blPosition + brPosition) / 4.0;
+    }
+
+
     /**
      * Translates the robot autonomously a certain distance known as ticks
      * @param ticks
      */
     public void strafe(double ticks){
-        /*
+        resetMotors();
+        double current_distance = 0.0;
+        double motor_power = 0.5;
 
-                Y O U R   C O D E   H E R E
+        if (ticks < 0){
+            motor_power = -0.5;
+        }
 
-         */
+        while (abs(current_distance) < abs(ticks)){
+             current_distance = getPosition();
+            setAllPower(motor_power);
+            multTelemetry.addData("current distance", current_distance);
+            multTelemetry.update();
+        }
+
+        setAllPower(0.0);
     }
 
     /**

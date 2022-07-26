@@ -12,11 +12,15 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import static org.firstinspires.ftc.teamcode.Utilities.OpModeUtils.multTelemetry;
 import static org.firstinspires.ftc.teamcode.Utilities.OpModeUtils.setOpMode;
 
+import org.firstinspires.ftc.teamcode.Hardware.Robot;
+
 @Disabled
 @Autonomous(name="LinearAuto", group="Autonomous Linear Opmode")
 public class LinearAuto extends LinearOpMode
 {
     // Declare OpMode members.
+    Robot iretomide = new Robot();
+
     private ElapsedTime runtime = new ElapsedTime();
 
     public void initialize(){
@@ -38,10 +42,7 @@ public class LinearAuto extends LinearOpMode
         waitForStart();
 
         if (opModeIsActive()){
-
-            /*
-                    Y O U R   C O D E   H E R E
-                                                   */
+            iretomide.tijani.strafe(200.0);
 
         }
    }
