@@ -14,17 +14,19 @@ import static org.firstinspires.ftc.teamcode.Utilities.OpModeUtils.setOpMode;
 
 import org.firstinspires.ftc.teamcode.Hardware.Robot;
 
-@Disabled
+
 @Autonomous(name="LinearAuto", group="Autonomous Linear Opmode")
 public class LinearAuto extends LinearOpMode
 {
     // Declare OpMode members.
-    Robot iretomide = new Robot();
+    Robot iretomide;
 
     private ElapsedTime runtime = new ElapsedTime();
 
     public void initialize(){
         setOpMode(this);
+
+        iretomide = new Robot();
 
         multTelemetry.addData("Status", "Initalized");
         multTelemetry.update();

@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.Hardware;
 
 import static com.qualcomm.robotcore.hardware.DcMotor.RunMode.STOP_AND_RESET_ENCODER;
 import static org.firstinspires.ftc.teamcode.Utilities.OpModeUtils.hardwareMap;
+import static org.firstinspires.ftc.teamcode.Utilities.OpModeUtils.isActive;
 import static org.firstinspires.ftc.teamcode.Utilities.OpModeUtils.multTelemetry;
 
 import static java.lang.Math.abs;
@@ -122,7 +123,7 @@ public class Mecanum {
             motor_power = -0.5;
         }
 
-        while (abs(current_distance) < abs(ticks)){
+        while (abs(current_distance) < abs(ticks) && isActive()){
              current_distance = getPosition();
             setAllPower(motor_power);
             multTelemetry.addData("current distance", current_distance);
